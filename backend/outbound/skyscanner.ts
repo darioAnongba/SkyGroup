@@ -8,6 +8,8 @@ import {UserFromRequest} from '../models/user_from_request';
 import {UserWithSuggestion} from '../models/user_with_suggestion';
 import {Suggestion} from '../models/suggestion';
 import {Quote} from '../models/skyscanner/quote';
+import {Airport} from '../models/skyscanner/geo/airport';
+import {Geo} from '../models/skyscanner/geo/geo';
 
 const Request: any = require('request');
 const _: any = require('lodash');
@@ -24,7 +26,7 @@ export class Skyscanner {
         for (let i = 0; i < users.length; i++) {
             cities[i] = users[i].departure;
             let query: string = url + '/browsequotes/v1.0/ch/chf/en-US/'+ cities[i] + '/' + destCountry + '/2017-11-12/2017-11-13?apikey=' + apikey;
-            promises.push(Skyscanner.requestAsync(query, users[i].name));
+            promises.push(Skyscanner.requestSuggestionAsync(query, users[i].name));
         }
 
         let suggPromise: Promise.Promise<Array<Suggestion>> = Promise.Promise.all(promises).then((alldata) => {
@@ -32,7 +34,7 @@ export class Skyscanner {
             let quotesByUser: Array<[string, Array<Quote>]> = _.map(dataByUser, (x: [string, any]) => [x[0], x[1].Quotes]);
             let useQuotesFlattened: Array<[string, Quote]> = quotesByUser.flatMap<[string, Quote]>(
                 (uQuotes) => _.map(uQuotes[1], (quote: Quote) => [uQuotes[0], quote]));
-            let destToQuote: any = _.groupBy(useQuotesFlattened, (x: [string, Quote]) => x[1].OutboundLeg.DestinationId);
+            let destToQuote: [string, Quote] = _.groupBy(useQuotesFlattened, (x: [string, Quote]) => x[1].OutboundLeg.DestinationId);
             
             // TODO: Change that
             let suggestions: Array<Suggestion> = [];
@@ -47,7 +49,36 @@ export class Skyscanner {
         return suggPromise;
     }
 
-    static requestAsync(query: string, user: string): Promise.Promise<[string, string]> {
+    /*
+    static getAirports(): Promise.Promise<Array<[string, string]>> {
+        let query: string = url + '/geo/v1.0?apikey=' + apikey;
+        return Skyscanner.requestAsync<Geo>(query).then((geo: Geo) => {
+            let airports: Array<[string, string]> = []
+            geo.Continents.forEach(continent => {
+                continent.Countries.forEach(country => {
+                    country.Cities.forEach(city => {
+                        city.Airports.forEach(airport => {
+                            airports.push([city.Name, airport.Id])
+                        });
+                    });
+                });
+            });
+
+            return airports;
+        });
+    }
+
+    private static requestAsync<T>(query: string): Promise.Promise<T> {
+        return new Promise.Promise<T>((resolve, reject) => {
+            Request(query, (error: string, response: any, body: any) => {
+                if (error) { return reject(error);}
+                return resolve(body);
+            });
+        });
+    }
+    */
+
+    private static requestSuggestionAsync(query: string, user: string): Promise.Promise<[string, string]> {
         return new Promise.Promise<[string, string]>((resolve, reject) => {
             Request(query, (error: string, response: any, body: any) => {
                 if (error) { return reject(error);}
