@@ -1,6 +1,7 @@
 // Only so that the compiler does not complain when using 'require'
 declare function require(name: string): any;
 
+import Promise = require('es6-promise');
 import {UserFromRequest} from './models/user_from_request';
 import {Suggestion} from './models/suggestion';
 import {UserWithSuggestion} from './models/user_with_suggestion';
@@ -59,9 +60,10 @@ server.route({
 			let destCountry: string = request.payload.destCountry;
 			
 			// Getting suggestions from Skyscanner
-			let suggestions: Array<Suggestion> = Skyscanner.getSuggestions(users, destCountry);
-
-			reply(JSON.stringify(suggestions)).header('Access-Control-Allow-Origin', '*').code(200);
+			let suggPromise: Promise.Promise<Array<Suggestion>> = Skyscanner.getSuggestions(users, destCountry);
+			suggPromise.then((suggestions: Array<Suggestion>) => {
+				reply(JSON.stringify(suggestions)).header('Access-Control-Allow-Origin', '*').code(200);
+			});
 		}
 	}
 });
