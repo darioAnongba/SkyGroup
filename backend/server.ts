@@ -42,6 +42,7 @@ server.route({
 	}
 });
 
+/*
 server.route({
 	method: 'GET',
 	path: '/airports',
@@ -54,6 +55,7 @@ server.route({
 		}
 	}
 });
+*/
 
 server.route({
 	method: 'POST',
