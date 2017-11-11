@@ -1,6 +1,12 @@
 // Only so that the compiler does not complain when using 'require'
 declare function require(name: string): any;
 
+import Promise = require('es6-promise');
+import {UserFromRequest} from './models/user_from_request';
+import {Suggestion} from './models/suggestion';
+import {UserWithSuggestion} from './models/user_with_suggestion';
+import {Skyscanner} from './outbound/skyscanner'
+
 const Hapi = require('hapi');
 const Joi = require('joi');
 
@@ -18,6 +24,11 @@ server.start((err: any) => {
 	console.log();
 });
 
+const userSchema = Joi.object({
+	name: Joi.string().min(1).required(),
+	departure: Joi.string().min(1).required()
+  }).required();
+
 server.route({
 	method: 'GET',
 	path: '/',
@@ -32,6 +43,19 @@ server.route({
 });
 
 server.route({
+	method: 'GET',
+	path: '/airports',
+	config: {
+		handler: function(request: any, reply: any) {
+			console.log("in");
+			Skyscanner.getAirports().then((airports) => {
+				reply(JSON.stringify(airports)).header('Access-Control-Allow-Origin', '*').code(200);
+			});
+		}
+	}
+});
+
+server.route({
 	method: 'POST',
 	path: '/suggestion',
 	config: {
@@ -40,19 +64,24 @@ server.route({
         },
 		validate: {
 			payload: {
-				name: Joi.string().required(),
-				destCity: Joi.string().required()
+				users: Joi.array().items(userSchema).required(),
+				destination: Joi.string().required()
 			}
 		},
 		handler: function(request: any, reply: any) {
-			let name: string = request.payload.name;
-			let destCity: string = request.payload.destCity;
+			let users: Array<UserFromRequest> = request.payload.users;
+			let destination: string = request.payload.destination;
 			
-			reply(JSON.stringify({"name": name, "destCity": destCity})).header('Access-Control-Allow-Origin', '*').code(200);
+			// Getting suggestions from Skyscanner
+			let suggPromise: Promise.Promise<Array<Suggestion>> = Skyscanner.getSuggestions(users, destination);
+			suggPromise.then((suggestions: Array<Suggestion>) => {
+				reply(JSON.stringify(suggestions)).header('Access-Control-Allow-Origin', '*').code(200);
+			});
 		}
 	}
 });
 
+// Useless for now
 server.route({
 	method: 'GET',
 	path: '/suggestion/{id}',

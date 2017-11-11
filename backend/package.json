@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "@types/underscore": "^1.8.5",
     "es6-promise": "^4.0.5",
     "hapi": "^15.2.0",
     "joi": "^10.0.1",
