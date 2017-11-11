@@ -3,3 +3,4 @@
 backend/node_modules
 backend/js_files
 **/*.DS_Store
+/apiKey
