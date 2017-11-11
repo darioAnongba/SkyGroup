@@ -1,2 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
+backend/node_modules
+backend/js_files
+**/*.DS_Store
