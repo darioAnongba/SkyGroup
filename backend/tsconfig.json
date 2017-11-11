@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "outDir": "./js_files",
+        "moduleResolution": "node"
+    },
+    "include": [
+        "./*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

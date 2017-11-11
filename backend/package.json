@@ -1,0 +1,22 @@
+{
+  "name": "skygroup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "es6-promise": "^4.0.5",
+    "hapi": "^15.2.0",
+    "joi": "^10.0.1",
+    "js-data-structures": "^1.0.9",
+    "lodash": "^4.16.2",
+    "typescript": "^2.1.0-dev.20160927",
+    "typescript-collections": "^1.2.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test",
+    "start": "node js_files/server.js"
+  },
+  "author": "Valentin Moullet",
+  "license": "ISC"
+}
