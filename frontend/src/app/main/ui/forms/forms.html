@@ -1,0 +1,137 @@
+<div id="forms" class="page-layout simple fullwidth doc-page" layout="column">
+
+  <!-- HEADER -->
+  <div class="header md-accent-bg" layout="row" layout-align="space-between">
+    <div layout="column" layout-align="space-between">
+      <div class="breadcrumb" layout="row" layout-align="start center">
+        <md-icon md-font-icon="icon-home" class="s16"></md-icon>
+        <md-icon md-font-icon="icon-chevron-right" class="s16 separator"></md-icon>
+        <span class="parent">CREATE YOUR TRIP</span>
+      </div>
+
+      <div class="title">Organize your awesome trip!</div>
+    </div>
+  </div>
+  <!-- / HEADER -->
+
+  <!-- CONTENT -->
+  <div class="content" layout="column">
+    <div layout="row">
+
+      <!-- BASIC FORM -->
+      <div class="form-wrapper md-whiteframe-1dp" flex="60">
+
+        <form name="searchForm" class="md-inline-form" ng-submit="searchForm.$valid &&  vm.sendForm()" novalidate>
+
+          <div class="form-title">Travelers</div>
+
+          <div layout="column" layout-gt-sm="row" ng-repeat="user in vm.searchForm.users">
+            <md-input-container flex>
+              <input type="text" name="firstname" ng-model="user.firstname"
+                     placeholder="Firstname"
+                     required>
+              <div ng-messages="user.firstname.$error"
+                   role="alert">
+                <div ng-message="required">
+                  <span>Firstname field is required.</span>
+                </div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex>
+              <input type="text" name="lastname" ng-model="user.lastname" placeholder="Lastname" required>
+              <div ng-messages="user.lastname.$error"
+                   role="alert">
+                <div ng-message="required">
+                  <span>Lastname field is required.</span>
+                </div>
+              </div>
+            </md-input-container>
+
+            <md-autocomplete flex required
+                             md-input-name="departure"
+                             md-input-minlength="2"
+                             md-input-maxlength="18"
+                             md-no-cache="noCache"
+                             md-selected-item="user.departure"
+                             md-search-text="user.textDeparture"
+                             md-items="item in vm.airports"
+                             md-item-text="item"
+                             md-floating-label="Departure">
+              <md-item-template>
+                <span md-highlight-text="textDeparture">{{item}}</span>
+              </md-item-template>
+              <div ng-messages="user.departure.$error" ng-if="user.departure.$touched">
+                <div ng-message="required">You <b>must</b> enter a departure city</div>
+                <div ng-message="minlength">Your entry is not long enough.</div>
+                <div ng-message="maxlength">Your entry is too long.</div>
+              </div>
+            </md-autocomplete>
+          </div>
+
+          <div layout="column" layout-gt-sm="row">
+            <md-button ng-click=vm.addTraveler() class="md-raised md-accent " aria-label="Add">
+              Add traveler
+            </md-button>
+            <md-button ng-click=vm.removeTraveler() class="md-raised md-accent md-warn" aria-label="Remove">
+              Remove traveler
+            </md-button>
+          </div>
+
+          <br>
+          <div class="form-title">Travel information</div>
+
+          <div layout="column" layout-gt-xs="row">
+            <md-autocomplete flex required
+                             md-input-name="destination"
+                             md-input-minlength="2"
+                             md-input-maxlength="18"
+                             md-no-cache="noCache"
+                             md-selected-item="vm.searchForm.destination"
+                             md-search-text="textDestination"
+                             md-items="item in vm.countries"
+                             md-item-text="item"
+                             md-floating-label="Destination">
+              <md-item-template>
+                <span md-highlight-text="textDestination">{{item}}</span>
+              </md-item-template>
+              <div ng-messages="searchForm.destination.$error" ng-if="searchForm.destination.$touched">
+                <div ng-message="required">You <b>must</b> enter a destination.</div>
+                <div ng-message="minlength">Your entry is not long enough.</div>
+                <div ng-message="maxlength">Your entry is too long.</div>
+              </div>
+            </md-autocomplete>
+
+            <md-input-container flex required>
+              <label>Departure</label>
+              <md-datepicker ng-model="vm.searchForm.departureDate" md-placeholder="Departure" md-open-on-focus>
+              </md-datepicker>
+              <div ng-messages="searchForm.departureDate.$error" ng-if="searchForm.departureDate.$touched">
+                <div ng-message="required">You <b>must</b> enter a departure date</div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex required>
+              <label>Return</label>
+              <md-datepicker ng-model="vm.searchForm.returnDate" md-placeholder="Return" md-open-on-focus>
+              </md-datepicker>
+
+              <div ng-messages="searchForm.returnDate.$error" ng-if="searchForm.returnDate.$touched">
+                <div ng-message="required">You <b>must</b> enter a return date</div>
+              </div>
+            </md-input-container>
+          </div>
+
+          <md-button type="submit" class="md-raised md-accent" aria-label="Submit"
+                     ng-disabled="searchForm.$invalid || searchForm.$pristine">
+            Submit
+          </md-button>
+        </form>
+
+      </div>
+      <!-- / BASIC FORM -->
+
+  </div>
+  <!-- / CONTENT -->
+
+</div>
