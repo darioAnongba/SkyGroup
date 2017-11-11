@@ -31,11 +31,15 @@ Template.topNavbar.events({
             setTimeout(
                 function () {
                     $('#side-menu').fadeIn(400);
-                }, 100);
+                }, 200);
         } else {
             // Remove all inline style from jquery fadeIn function to reset menu state
             $('#side-menu').removeAttr('style');
         }
-    }
+    },
 
+    // Toggle right sidebar
+    'click .right-sidebar-toggle': function(){
+        $('#right-sidebar').toggleClass('sidebar-open');
+    }
 });
