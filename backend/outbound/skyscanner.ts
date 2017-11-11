@@ -13,8 +13,9 @@ import {Geo} from '../models/skyscanner/geo/geo';
 
 const Request: any = require('request');
 const _: any = require('lodash');
+const fs = require("fs");
 
-const apikey = "ha696723343441434034465280137182";
+const apikey = fs.readFileSync('../apiKey');
 const url = 'http://partners.api.skyscanner.net/apiservices/';
 
 export class Skyscanner {
