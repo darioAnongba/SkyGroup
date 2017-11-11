@@ -50,34 +50,9 @@ export class Skyscanner {
         return suggPromise;
     }
 
-    /*
-    static getAirports(): Promise.Promise<Array<[string, string]>> {
-        let query: string = url + '/geo/v1.0?apikey=' + apikey;
-        return Skyscanner.requestAsync<Geo>(query).then((geo: Geo) => {
-            let airports: Array<[string, string]> = []
-            geo.Continents.forEach(continent => {
-                continent.Countries.forEach(country => {
-                    country.Cities.forEach(city => {
-                        city.Airports.forEach(airport => {
-                            airports.push([city.Name, airport.Id])
-                        });
-                    });
-                });
-            });
-
-            return airports;
-        });
+    static getAirports(): string {
+        return fs.readFileSync('./data/airports.json')
     }
-
-    private static requestAsync<T>(query: string): Promise.Promise<T> {
-        return new Promise.Promise<T>((resolve, reject) => {
-            Request(query, (error: string, response: any, body: any) => {
-                if (error) { return reject(error);}
-                return resolve(body);
-            });
-        });
-    }
-    */
 
     private static requestSuggestionAsync(query: string, user: string): Promise.Promise<[string, string]> {
         return new Promise.Promise<[string, string]>((resolve, reject) => {

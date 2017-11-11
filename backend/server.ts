@@ -42,20 +42,15 @@ server.route({
 	}
 });
 
-/*
 server.route({
 	method: 'GET',
 	path: '/airports',
 	config: {
 		handler: function(request: any, reply: any) {
-			console.log("in");
-			Skyscanner.getAirports().then((airports) => {
-				reply(JSON.stringify(airports)).header('Access-Control-Allow-Origin', '*').code(200);
-			});
+			reply(Skyscanner.getAirports()).header('Access-Control-Allow-Origin', '*').code(200);
 		}
 	}
 });
-*/
 
 server.route({
 	method: 'POST',

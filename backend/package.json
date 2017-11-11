@@ -6,6 +6,7 @@
   "dependencies": {
     "@types/underscore": "^1.8.5",
     "es6-promise": "^4.0.5",
+    "fs": "0.0.1-security",
     "hapi": "^15.2.0",
     "joi": "^10.0.1",
     "js-data-structures": "^1.0.9",
