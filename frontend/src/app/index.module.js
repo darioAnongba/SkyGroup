@@ -20,9 +20,6 @@
             // Quick Panel
             'app.quick-panel',
 
-            // Sample
-            'app.sample',
-
             // User Interface
             'app.ui'
         ]);
