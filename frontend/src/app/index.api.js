@@ -185,7 +185,6 @@
     api.airports = $resource(api.baseUrl + 'airports.json');
 
     // POST requests
-    api.search = $resource('')
 
     return api;
   }

@@ -19,7 +19,7 @@
     <div layout="row">
 
       <!-- BASIC FORM -->
-      <div class="form-wrapper md-whiteframe-1dp" flex="60">
+      <div class="form-wrapper md-whiteframe-1dp" flex>
 
         <form name="searchForm" class="md-inline-form" ng-submit="searchForm.$valid &&  vm.sendForm()" novalidate>
 
@@ -27,23 +27,13 @@
 
           <div layout="column" layout-gt-sm="row" ng-repeat="user in vm.searchForm.users">
             <md-input-container flex>
-              <input type="text" name="firstname" ng-model="user.firstname"
-                     placeholder="Firstname"
+              <input type="text" name="name" ng-model="user.name"
+                     placeholder="Name"
                      required>
-              <div ng-messages="user.firstname.$error"
+              <div ng-messages="user.name.$error"
                    role="alert">
                 <div ng-message="required">
-                  <span>Firstname field is required.</span>
-                </div>
-              </div>
-            </md-input-container>
-
-            <md-input-container flex>
-              <input type="text" name="lastname" ng-model="user.lastname" placeholder="Lastname" required>
-              <div ng-messages="user.lastname.$error"
-                   role="alert">
-                <div ng-message="required">
-                  <span>Lastname field is required.</span>
+                  <span>Name field is required.</span>
                 </div>
               </div>
             </md-input-container>

@@ -11,7 +11,7 @@
     "joi": "^10.0.1",
     "js-data-structures": "^1.0.9",
     "lodash": "^4.16.2",
-    "typescript": "^2.1.0-dev.20160927",
+    "typescript": "^2.6.1",
     "typescript-collections": "^1.2.2"
   },
   "devDependencies": {},
