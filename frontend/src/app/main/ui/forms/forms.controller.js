@@ -29,15 +29,9 @@
     vm.searchForm = {
       returnDate: new Date(),
       departureDate: new Date(),
-      destination: 'Switzerland'
+      destination: ''
     };
     vm.searchForm.users = [defaultUser(), defaultUser()];
-    vm.states = ('AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS ' +
-    'MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI ' +
-    'WY').split(' ').map(function (state)
-    {
-      return {abbrev: state};
-    });
 
     api.countries.get(
       {},
@@ -49,7 +43,6 @@
     api.airports.get(
       {},
       function (response) {
-        console.log(angular.fromJson(response.data[0]));
         vm.airports = angular.fromJson(response.data);
       }
     );
@@ -68,7 +61,13 @@
      */
     function sendForm()
     {
-      console.log(vm.searchForm);
+
+      vm.searchForm.users.forEach(function (part, index, arr) {
+        console.log(arr[index].departure);
+        arr[index].departure = arr[index].departure.airportId;
+      });
+
+      vm.searchForm.destination = vm.searchForm.destination.countryId;
 
       // You can do an API call here to send the form to your server
       $http.post('http://localhost:8080/suggestion', vm.searchForm, config)
