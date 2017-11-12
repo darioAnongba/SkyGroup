@@ -76,6 +76,8 @@
         .then(function(data, status, headers, config) {
           vm.suggestions = data.data;
         });
+
+      vm.flights = {}
     }
 
     /**
