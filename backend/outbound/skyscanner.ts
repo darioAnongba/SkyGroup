@@ -60,7 +60,7 @@ export class Skyscanner {
             let dataByUser: Array<[string, any]> = _.map(alldata, (x: [string, string]) => [x[0], JSON.parse(x[1])]);
             console.log("tesss");
             let quotesByUser: Array<[string, Array<Quote>]> = _.map(dataByUser, (x: [string, any]) => [x[0], x[1].Quotes]);
-            let places = dataByUser.flatMap((data) => _.map(data[1].Places, (place) => [place.PlaceId, place.Name]));
+            let places = dataByUser.flatMap((data) => _.map(data[1].Places, (place) => [place.PlaceId, place.Name, place.IataCode]));
             // console.log(Skyscanner.uniq(places));
             let airportByUser: Array<[string,Array<number>]> = _.map(quotesByUser, (x) => [x[0], _.map(x[1], (q: Quote) => q.OutboundLeg.DestinationId)]);
             let airports = _.map(airportByUser, (x:any) => x[1])
@@ -87,7 +87,7 @@ export class Skyscanner {
                             }
                         }
 
-                        res.push([places[i][1], filteredArray, totalPrice]);
+                        res.push([places[i][1], filteredArray, totalPrice, places[i][2]]);
                         break;
                     }
                 }
@@ -101,7 +101,7 @@ export class Skyscanner {
                 let tmp1 = Skyscanner.transsform(Skyscanner.numtoNam(l1.OriginId, places),Skyscanner.numtoNam(l1.DestinationId, places), l1);
                 let tmp2 = Skyscanner.transsform(Skyscanner.numtoNam(l2.OriginId, places),Skyscanner.numtoNam(l2.DestinationId, places), l2);
                 // console.log(tmp2);
-                return new UserWithSuggestion(uq[0],uq[1].MinPrice,uq[1].Direct, tmp2, tmp1)}), r[2])});
+                return new UserWithSuggestion(uq[0],uq[1].MinPrice,uq[1].Direct, tmp2, tmp1)}), r[2], r[3])});
             // console.log("foobar");
             let sorted = Skyscanner.sortByKey(rr, 'fullPrice')
             //console.log(util.inspect(res, false, null));
