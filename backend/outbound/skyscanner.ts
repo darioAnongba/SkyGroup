@@ -44,7 +44,7 @@ export class Skyscanner {
         for (let i = 0; i < users.length; i++) {
             cities[i] = users[i].departure;
             let query: string = url + '/browsequotes/v1.0/ch/chf/en-US/'+ cities[i] + '/' + destCountry + '/2017-11-24/2017-11-26?apikey=' + apikey;
-            promises.push(Skyscanner.requestAsync(query, users[i].name));
+            promises.push(Skyscanner.requestSuggestionAsync(query, users[i].name));
 
         }
 
