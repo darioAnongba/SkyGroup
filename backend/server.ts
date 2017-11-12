@@ -26,7 +26,8 @@ server.start((err: any) => {
 
 const userSchema = Joi.object({
 	name: Joi.string().min(1).required(),
-	departure: Joi.string().min(1).required()
+	departure: Joi.string().min(1).required(),
+	textDeparture: Joi.string()
   }).required();
 
 server.route({
