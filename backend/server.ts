@@ -27,7 +27,7 @@ server.start((err: any) => {
 const userSchema = Joi.object({
 	name: Joi.string().min(1).required(),
 	departure: Joi.string().min(1).required(),
-	textDeparture: Joi.string()
+	textDeparture: Joi.string().min(1).required()
   }).required();
 
 server.route({
@@ -63,7 +63,9 @@ server.route({
 		validate: {
 			payload: {
 				users: Joi.array().items(userSchema).required(),
-				destination: Joi.string().required()
+				destination: Joi.string().required(),
+				departureDate: Joi.string().required(),
+				returnDate: Joi.string().required()
 			}
 		},
 		handler: function(request: any, reply: any) {
