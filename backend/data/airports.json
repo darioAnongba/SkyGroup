@@ -1,4 +1,22 @@
 [{
+	"cityName": "London",
+	"airportId": "LCY"
+}, {
+	"cityName": "London",
+	"airportId": "LGW"
+}, {
+	"cityName": "London",
+	"airportId": "LHR"
+}, {
+	"cityName": "London",
+	"airportId": "LTN"
+}, {
+	"cityName": "London",
+	"airportId": "SEN"
+}, {
+	"cityName": "London",
+	"airportId": "STN"
+}, {
 	"cityName": "Bamiyan",
 	"airportId": "BIN"
 }, {
@@ -4267,24 +4285,6 @@
 }, {
 	"cityName": "Liverpool",
 	"airportId": "LPL"
-}, {
-	"cityName": "London",
-	"airportId": "LCY"
-}, {
-	"cityName": "London",
-	"airportId": "LGW"
-}, {
-	"cityName": "London",
-	"airportId": "LHR"
-}, {
-	"cityName": "London",
-	"airportId": "LTN"
-}, {
-	"cityName": "London",
-	"airportId": "SEN"
-}, {
-	"cityName": "London",
-	"airportId": "STN"
 }, {
 	"cityName": "Lydd",
 	"airportId": "LYX"
