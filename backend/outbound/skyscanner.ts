@@ -100,7 +100,7 @@ export class Skyscanner {
     }
 
     static getAirports(): any {
-        return {"data": JSON.parse(fs.readFileSync('./data/airports.json', 'utf8')).slice(0, 1000)};
+        return {"data": JSON.parse(fs.readFileSync('./data/airports.json', 'utf8'))};
     }
 
     static getCountries(): any {
