@@ -6,7 +6,7 @@ export class Suggestion {
     public fullPrice: number;
     public usersWithSuggestion: Array<UserWithSuggestion>;
 
-    constructor(destCity: string, users: Array<UserWithSuggestion>, fullPrice) {
+    constructor(destCity: string, users: Array<UserWithSuggestion>, fullPrice: number) {
         this.destCity = destCity;
         this.usersWithSuggestion = users;
         this.fullPrice = fullPrice;
