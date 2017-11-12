@@ -92,6 +92,35 @@ server.route({
 	}
 });
 
+server.route({
+	method: 'POST',
+	path: '/flight',
+	config: {
+		cors: {
+            origin: ['*']
+        },
+		validate: {
+			payload: {
+				users: Joi.array().items(userSchema).required(),
+				destination: Joi.string().required(),
+				departureDate: Joi.date().required(),
+				returnDate: Joi.date().required()
+			}
+		},
+		handler: function(request: any, reply: any) {
+			let users: Array<UserFromRequest> = request.payload.users;
+			let destination: string = request.payload.destination;
+			let departureDate: Date = new Date(request.payload.departureDate);
+			let returnDate: Date = new Date(request.payload.returnDate);
+			
+			// Getting suggestions from Skyscanner
+			Skyscanner.getFlights(users, destination, departureDate, returnDate).then((flights) => {
+				reply(JSON.stringify(flights)).header('Access-Control-Allow-Origin', '*').code(200);
+			});
+		}
+	}
+});
+
 // Useless for now
 server.route({
 	method: 'GET',
