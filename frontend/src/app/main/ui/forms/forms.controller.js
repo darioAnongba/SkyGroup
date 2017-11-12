@@ -7,7 +7,7 @@
     .controller('FormsController', FormsController);
 
   /** @ngInject */
-  function FormsController($http, api)
+  function FormsController($http, $window, api)
   {
     var vm = this;
 
@@ -54,6 +54,7 @@
     vm.querySearchCountries = querySearchCountries;
     vm.querySearchAirports = querySearchAirports;
     vm.sendConcrete = sendConcrete;
+    vm.externalLink = externalLink;
 
     //////////
 
@@ -62,8 +63,7 @@
      */
     function sendForm()
     {
-
-      var dataR = JSON.parse(JSON.stringify(vm.searchForm));
+      var dataR = angular.fromJson(angular.toJson(vm.searchForm));
 
       dataR.users.forEach(function (part, index, arr) {
         arr[index].departure = arr[index].departure.airportId;
@@ -74,7 +74,6 @@
       // You can do an API call here to send the form to your server
       $http.post('http://localhost:8080/suggestion', dataR, config)
         .then(function(data, status, headers, config) {
-          console.log(data.data);
           vm.suggestions = data.data;
         });
     }
@@ -84,19 +83,19 @@
      */
     function sendConcrete(suggestion)
     {
-      var dataR = JSON.parse(JSON.stringify(vm.searchForm));
+      var dataR = angular.fromJson(angular.toJson(vm.searchForm));
 
       dataR.users.forEach(function (part, index, arr) {
         arr[index].departure = arr[index].departure.airportId;
       });
 
-      dataR.destination = dataR.destination.countryId;
+      dataR.destination = suggestion.destCode;
 
       // You can do an API call here to send the form to your server
       $http.post('http://localhost:8080/flight', dataR, config)
         .then(function(data, status, headers, config) {
-          console.log(data.data);
-          vm.suggestions = data.data;
+          vm.flights = data.data;
+          vm.suggestions = {}
         });
     }
 
@@ -105,6 +104,13 @@
      */
     function addTraveler() {
       vm.searchForm.users.push(defaultUser());
+    }
+
+    /**
+     * Add a new traveler to the form
+     */
+    function externalLink(link) {
+      $window.location.href = link;
     }
 
     /**

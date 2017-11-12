@@ -138,59 +138,86 @@
 
         <ms-widget-front class="white-bg">
           <div class="ph-16 pt-16 pb-8 md-accent-bg">
-            <div class="h3 text-center">{{userSuggestion.name}} - around <strong>{{userSuggestion.price}} CHF</strong></div>
+            <div class="h3 text-center">{{userSuggestion.name}} - around <strong>{{userSuggestion.price}} CHF</strong> - {{userSuggestion.direct ? 'Direct flight' : 'With stops'}}
+            </div>
           </div>
         </ms-widget-front>
       </ms-widget>
+    </div>
+    <!-- / WIDGET GROUP -->
+    <!-- / CONTENT -->
+  </div>
 
-      <!-- <ms-widget-front class="white-bg">
-        <div class="ph-16 pt-16 pb-8 md-accent-bg">
-          <div class="h3 text-center">{{userSuggestion.name}} - around <strong>{{userSuggestion.price}} CHF</strong></div>
-        </div>
+  <div class="content" layout="column" ng-if="vm.flights">
 
-        <md-tabs class="md-accent no-radius" md-dynamic-height>
-          <md-tab label="Departure - {{userSuggestion.outboundLeg.DepartureDate | date : 'mediumDate'}}">
+    <span class="md-display-1">Flight to {{vm.flights[0].outbound.arrivalStation}}</span>
 
-            <div layout="row" layout-align="start center" layout-wrap>
+    <!-- WIDGET GROUP -->
+    <div class="widget-group" layout="row" flex="100" layout-wrap >
 
-              <div flex="100" flex-gt-md="50">
-                <div class="h2 m-16 pb-16 border-bottom">Direct flight</div>
+      <!-- WIDGET 14 -->
+      <ms-widget layout="column" flex="100" flex-gt-md="50" ng-repeat="flight in vm.flights">
 
-                <div class="p-16 pb-32" ng-repeat="data in group.data">
-                  <div class="pb-8" layout="row" layout-align="space-between start">
-                    <span class="h3">{{data.title}}</span>
-                    <span class="h3 secondary-text font-weight-500">{{data.value}}%</span>
-                  </div>
-                  <md-progress-linear class="{{data.progressColor}}" md-mode="determinate"
-                                      value="{{data.value}}"></md-progress-linear>
-                </div>
-              </div>
-
+        <ms-widget-front class="white-bg">
+          <div class="ph-16 pt-16 pb-8 md-accent-bg">
+            <div class="h3 text-center">{{flight.user}} - <strong>{{flight.price}} CHF</strong>
+               -
+              <md-button ng-click="vm.externalLink(flight.deepLink)" class="md-raised">
+                Book
+              </md-button>
             </div>
-          </md-tab>
+          </div>
 
-          <md-tab label="Return - {{userSuggestion.inboundLeg.DepartureDate | date : 'mediumDate'}}">
+          <md-tabs class="md-accent no-radius" md-dynamic-height>
+            <md-tab label="Departure - {{flight.outbound.departureTime | date : 'mediumDate'}}">
 
-            <div layout="row" layout-align="start center" layout-wrap>
+              <div layout="row" layout-align="start center" layout-wrap>
 
-              <div flex="100" flex-gt-md="50">
-                <div class="h2 m-16 pb-16 border-bottom">{{group.title}}</div>
-
-                <div class="p-16 pb-32" ng-repeat="data in group.data">
-                  <div class="pb-8" layout="row" layout-align="space-between start">
-                    <span class="h3">{{data.title}}</span>
-                    <span class="h3 secondary-text font-weight-500">{{data.value}}%</span>
+                <div flex="100">
+                  <div class="h2 m-16 pb-16 border-bottom">
+                    <span>{{flight.outbound.vias.length == 0 ? 'Direct flight': 'With stops'}}</span>
+                    -f
+                    {{flight.outbound.duration}} min
                   </div>
-                  <md-progress-linear class="{{data.progressColor}}" md-mode="determinate"
-                                      value="{{data.value}}"></md-progress-linear>
-                </div>
-              </div>
 
-            </div>
-          </md-tab>
-        </md-tabs>
-      </ms-widget-front>
-    </ms-widget> -->
+                  <div class="p-16 pb-32">
+                    <div class="pb-8" layout="row" layout-align="space-between start">
+                      <span class="h3">{{flight.outbound.departureStation}} ({{flight.outbound.departureTime | date : 'shortTime'}})</span>
+                      <span class="h3">{{flight.outbound.arrivalStation}} ({{flight.outbound.arrivalTime | date : 'shortTime'}})</span>
+                    </div>
+                    <md-progress-linear class="{{data.progressColor}}" md-mode="determinate"
+                                        value="{{data.value}}"></md-progress-linear>
+                  </div>
+                </div>
+
+              </div>
+            </md-tab>
+
+            <md-tab label="Return - {{flight.inbound.departureTime | date : 'mediumDate'}}">
+
+              <div layout="row" layout-align="start center" layout-wrap>
+
+                <div flex="100">
+                  <div class="h2 m-16 pb-16 border-bottom">
+                    <span ng-if="flight.inbound.vias.length == 0">Direct flight</span>
+                    -
+                    {{flight.inbound.duration}} min
+                  </div>
+
+                  <div class="p-16 pb-32">
+                    <div class="pb-8" layout="row" layout-align="space-between start">
+                      <span class="h3">{{flight.inbound.departureStation}} ({{flight.inbound.departureTime | date : 'shortTime'}})</span>
+                      <span class="h3">{{flight.inbound.arrivalStation}} ({{flight.inbound.arrivalTime | date : 'shortTime'}})</span>
+                    </div>
+                    <md-progress-linear class="blue" md-mode="determinate" value=""></md-progress-linear>
+                  </div>
+                </div>
+
+              </div>
+            </md-tab>
+          </md-tabs>
+        </ms-widget-front>
+      </ms-widget>
 
     </div>
     <!-- / WIDGET GROUP -->
