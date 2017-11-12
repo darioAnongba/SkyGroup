@@ -10,6 +10,8 @@ import {UserFromRequest} from '../models/user_from_request';
 import {UserWithSuggestion} from '../models/user_with_suggestion';
 import {Suggestion} from '../models/suggestion';
 import {Quote} from '../models/skyscanner/quote';
+import {Airport} from '../models/skyscanner/geo/airport';
+import {Geo} from '../models/skyscanner/geo/geo';
 
 const Request: any = require('request');
 const _: any = require('lodash');
@@ -43,6 +45,7 @@ export class Skyscanner {
             cities[i] = users[i].departure;
             let query: string = url + '/browsequotes/v1.0/ch/chf/en-US/'+ cities[i] + '/' + destCountry + '/2017-11-24/2017-11-26?apikey=' + apikey;
             promises.push(Skyscanner.requestAsync(query, users[i].name));
+
         }
 
 
@@ -83,12 +86,17 @@ export class Skyscanner {
             console.log("foobar");
 
             return rr;
+
         });
 
         return suggPromise;
     }
 
-    static requestAsync(query: string, user: string): Promise.Promise<[string, string]> {
+    static getAirports(): string {
+        return fs.readFileSync('./data/airports.json')
+    }
+
+    private static requestSuggestionAsync(query: string, user: string): Promise.Promise<[string, string]> {
         return new Promise.Promise<[string, string]>((resolve, reject) => {
             Request(query, (error: string, response: any, body: any) => {
                 if (error) { return reject(error);}

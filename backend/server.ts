@@ -26,7 +26,8 @@ server.start((err: any) => {
 
 const userSchema = Joi.object({
 	name: Joi.string().min(1).required(),
-	departure: Joi.string().min(1).required()
+	departure: Joi.string().min(1).required(),
+	textDeparture: Joi.string().min(1).required()
   }).required();
 
 server.route({
@@ -43,6 +44,16 @@ server.route({
 });
 
 server.route({
+	method: 'GET',
+	path: '/airports',
+	config: {
+		handler: function(request: any, reply: any) {
+			reply(Skyscanner.getAirports()).header('Access-Control-Allow-Origin', '*').code(200);
+		}
+	}
+});
+
+server.route({
 	method: 'POST',
 	path: '/suggestion',
 	config: {
@@ -52,15 +63,17 @@ server.route({
 		validate: {
 			payload: {
 				users: Joi.array().items(userSchema).required(),
-				destCountry: Joi.string().required()
+				destination: Joi.string().required(),
+				departureDate: Joi.string().required(),
+				returnDate: Joi.string().required()
 			}
 		},
 		handler: function(request: any, reply: any) {
 			let users: Array<UserFromRequest> = request.payload.users;
-			let destCountry: string = request.payload.destCountry;
+			let destination: string = request.payload.destination;
 			
 			// Getting suggestions from Skyscanner
-			let suggPromise: Promise.Promise<Array<Suggestion>> = Skyscanner.getSuggestions(users, destCountry);
+			let suggPromise: Promise.Promise<Array<Suggestion>> = Skyscanner.getSuggestions(users, destination);
 			suggPromise.then((suggestions: Array<Suggestion>) => {
 				reply(JSON.stringify(suggestions)).header('Access-Control-Allow-Origin', '*').code(200);
 			});

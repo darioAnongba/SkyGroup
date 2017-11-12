@@ -31,7 +31,7 @@
         $translatePartialLoaderProvider.addPart('app/main/sample');
 
         // Api
-        msApiProvider.register('sample', ['app/data/sample/sample.json']);
+        msApiProvider.register('sample', ['app/data/sample/countries.json']);
 
         // Navigation
         msNavigationServiceProvider.saveItem('fuse', {
