@@ -1,8 +1,8 @@
 export class Legend {
     
         public CarrierIds: Array<number>;
-        public OriginId: number;
-        public DestinationId: number;
+        public OriginId: any;
+        public DestinationId: any;
         public DepartureDate: string;
     
         constructor(CarrierIds: Array<number>, OriginId: number, DestinationId: number, DepartureDate: string) {
