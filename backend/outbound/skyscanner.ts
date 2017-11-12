@@ -100,7 +100,7 @@ export class Skyscanner {
     }
 
     static getAirports(): any {
-        return {"data": fs.readFileSync('./data/airports.json', 'utf8')};
+        return {"data": JSON.parse(fs.readFileSync('./data/airports.json', 'utf8'))};
     }
 
     private static requestSuggestionAsync(query: string, user: string): Promise.Promise<[string, string]> {
