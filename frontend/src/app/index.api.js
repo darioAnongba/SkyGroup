@@ -178,13 +178,11 @@
     var api = {};
 
     // Base Url
-    api.baseUrl = 'app/data/';
+    api.baseUrl = 'http://localhost:8080/';
 
     // GET requests
-    api.countries = $resource(api.baseUrl + 'countries.json');
-    api.airports = $resource(api.baseUrl + 'airports.json');
-
-    // POST requests
+    api.countries = $resource(api.baseUrl + 'countries');
+    api.airports = $resource(api.baseUrl + 'airports');
 
     return api;
   }
