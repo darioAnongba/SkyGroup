@@ -45,7 +45,7 @@
                              md-no-cache="noCache"
                              md-selected-item="user.departure"
                              md-search-text="user.textDeparture"
-                             md-items="item in vm.airports"
+                             md-items="item in vm.querySearchAirports(user.textDeparture)"
                              md-item-text="item.airportId"
                              md-floating-label="Departure">
               <md-item-template>
@@ -79,11 +79,11 @@
                              md-no-cache="noCache"
                              md-selected-item="vm.searchForm.destination"
                              md-search-text="textDestination"
-                             md-items="item in vm.countries"
+                             md-items="item in vm.querySearchCountries(textDestination)"
                              md-item-text="item.countryId"
                              md-floating-label="Destination">
               <md-item-template>
-                <span md-highlight-text="textDestination">{{item.countryId}}</span>
+                <span md-highlight-text="textDestination">{{item.countryName}}</span>
               </md-item-template>
               <div ng-messages="searchForm.destination.$error" ng-if="searchForm.destination.$touched">
                 <div ng-message="required">You <b>must</b> enter a destination.</div>

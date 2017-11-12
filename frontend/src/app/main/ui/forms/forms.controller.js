@@ -58,6 +58,8 @@
     vm.sendForm = sendForm;
     vm.addTraveler = addTraveler;
     vm.removeTraveler = removeTraveler;
+    vm.querySearchCountries = querySearchCountries;
+    vm.querySearchAirports = querySearchAirports;
 
     //////////
 
@@ -66,6 +68,8 @@
      */
     function sendForm()
     {
+      console.log(vm.searchForm);
+
       // You can do an API call here to send the form to your server
       $http.post('http://localhost:8080/suggestion', vm.searchForm, config)
         .then(function(data, status, headers, config) {
@@ -167,7 +171,7 @@
             }
           ]
         }, function (data, status, header, config) {
-          console.log(status);
+          console.log(header);
         });
     }
 
@@ -186,6 +190,36 @@
       if (length > 2) {
         vm.searchForm.users.splice(length-1);
       }
+    }
+
+    function querySearchCountries(query) {
+      return query ? vm.countries.filter( createFilterForCountries(query) ) : vm.countries;
+    }
+
+    function querySearchAirports(query) {
+      return query ? vm.airports.filter( createFilterForAirports(query) ) : vm.airports;
+    }
+
+    /**
+     * Create filter function for a query string
+     */
+    function createFilterForCountries(query) {
+      var lowercaseQuery = angular.lowercase(query);
+
+      return function filterFn(item) {
+        return (angular.lowercase(item.countryName).indexOf(lowercaseQuery) === 0);
+      };
+    }
+
+    /**
+     * Create filter function for a query string
+     */
+    function createFilterForAirports(query) {
+      var lowercaseQuery = angular.lowercase(query);
+
+      return function filterFn(item) {
+        return (angular.lowercase(item.cityName).indexOf(lowercaseQuery) === 0);
+      };
     }
   }
 })();
