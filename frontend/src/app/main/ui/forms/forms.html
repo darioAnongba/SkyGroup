@@ -46,10 +46,10 @@
                              md-selected-item="user.departure"
                              md-search-text="user.textDeparture"
                              md-items="item in vm.airports"
-                             md-item-text="item"
+                             md-item-text="item.airportId"
                              md-floating-label="Departure">
               <md-item-template>
-                <span md-highlight-text="textDeparture">{{item}}</span>
+                <span md-highlight-text="user.textDeparture">{{item.cityName}} ({{item.airportId}})</span>
               </md-item-template>
               <div ng-messages="user.departure.$error" ng-if="user.departure.$touched">
                 <div ng-message="required">You <b>must</b> enter a departure city</div>
@@ -80,10 +80,10 @@
                              md-selected-item="vm.searchForm.destination"
                              md-search-text="textDestination"
                              md-items="item in vm.countries"
-                             md-item-text="item"
+                             md-item-text="item.countryId"
                              md-floating-label="Destination">
               <md-item-template>
-                <span md-highlight-text="textDestination">{{item}}</span>
+                <span md-highlight-text="textDestination">{{item.countryId}}</span>
               </md-item-template>
               <div ng-messages="searchForm.destination.$error" ng-if="searchForm.destination.$touched">
                 <div ng-message="required">You <b>must</b> enter a destination.</div>
@@ -120,8 +120,62 @@
 
       </div>
       <!-- / BASIC FORM -->
-
+    </div>
+    <!-- / CONTENT -->
   </div>
-  <!-- / CONTENT -->
 
+  <div class="content" layout="column">
+    <div layout="row">
+      <md-content class="md-padding" layout-xs="column" layout="row">
+
+        <div flex-xs flex-gt-xs="50" layout="column" ng-repeat="suggestion in vm.suggestions">
+          <md-card>
+            <img ng-src="https://cdn.londonandpartners.com/visit/general-london/areas/westminster-st-james/60262-640x360-parliament-bridge-640.jpg" class="md-card-image" alt="Washed Out">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">{{suggestion.destination}}</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+              <p>
+                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
+                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
+              </p>
+              <p>
+                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
+                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
+              </p>
+              <p>
+                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
+                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
+              </p>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end center">
+              <md-button>Action 1</md-button>
+              <md-button>Action 2</md-button>
+            </md-card-actions>
+          </md-card>
+          <md-card>
+            <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
+            <md-card-title>
+              <md-card-title-text>
+                <span class="md-headline">Vertical action buttons</span>
+              </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+              <p>
+                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
+                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
+              </p>
+            </md-card-content>
+            <md-card-actions layout="column" layout-align="start">
+              <md-button>Action 1</md-button>
+              <md-button>Action 2</md-button>
+            </md-card-actions>
+          </md-card>
+        </div>
+      </md-content>
+    </div>
+    <!-- / CONTENT -->
+  </div>
 </div>
