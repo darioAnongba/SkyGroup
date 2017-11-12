@@ -80,7 +80,7 @@
                              md-selected-item="vm.searchForm.destination"
                              md-search-text="textDestination"
                              md-items="item in vm.querySearchCountries(textDestination)"
-                             md-item-text="item.countryId"
+                             md-item-text="item.countryName"
                              md-floating-label="Destination">
               <md-item-template>
                 <span md-highlight-text="textDestination">{{item.countryName}}</span>
@@ -124,58 +124,76 @@
     <!-- / CONTENT -->
   </div>
 
-  <div class="content" layout="column">
-    <div layout="row">
-      <md-content class="md-padding" layout-xs="column" layout="row">
+  <div class="content" layout="column" ng-repeat="suggestion in vm.suggestions">
 
-        <div flex-xs flex-gt-xs="50" layout="column" ng-repeat="suggestion in vm.suggestions">
-          <md-card>
-            <img ng-src="https://cdn.londonandpartners.com/visit/general-london/areas/westminster-st-james/60262-640x360-parliament-bridge-640.jpg" class="md-card-image" alt="Washed Out">
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">{{suggestion.destination}}</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-card-content>
-              <p>
-                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-              </p>
-              <p>
-                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-              </p>
-              <p>
-                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-              </p>
-            </md-card-content>
-            <md-card-actions layout="row" layout-align="end center">
-              <md-button>Action 1</md-button>
-              <md-button>Action 2</md-button>
-            </md-card-actions>
-          </md-card>
-          <md-card>
-            <img ng-src="{{imagePath}}" class="md-card-image" alt="Washed Out">
-            <md-card-title>
-              <md-card-title-text>
-                <span class="md-headline">Vertical action buttons</span>
-              </md-card-title-text>
-            </md-card-title>
-            <md-card-content>
-              <p>
-                The titles of Washed Out's breakthrough song and the first single from Paracosm share the
-                two most important words in Ernest Greene's musical language: feel it. It's a simple request, as well...
-              </p>
-            </md-card-content>
-            <md-card-actions layout="column" layout-align="start">
-              <md-button>Action 1</md-button>
-              <md-button>Action 2</md-button>
-            </md-card-actions>
-          </md-card>
+    <md-button ng-click="vm.sendConcrete(suggestion)" class="md-raised" aria-label="Submit">
+      {{suggestion.destCity}} - <strong>Total: {{suggestion.fullPrice}} CHF</strong>
+    </md-button>
+
+    <!-- WIDGET GROUP -->
+    <div class="widget-group" layout="row" flex="100" layout-wrap >
+
+      <!-- WIDGET 14 -->
+      <ms-widget layout="column" flex="100" flex-gt-md="50" ng-repeat="userSuggestion in suggestion.usersWithSuggestion">
+
+        <ms-widget-front class="white-bg">
+          <div class="ph-16 pt-16 pb-8 md-accent-bg">
+            <div class="h3 text-center">{{userSuggestion.name}} - around <strong>{{userSuggestion.price}} CHF</strong></div>
+          </div>
+        </ms-widget-front>
+      </ms-widget>
+
+      <!-- <ms-widget-front class="white-bg">
+        <div class="ph-16 pt-16 pb-8 md-accent-bg">
+          <div class="h3 text-center">{{userSuggestion.name}} - around <strong>{{userSuggestion.price}} CHF</strong></div>
         </div>
-      </md-content>
+
+        <md-tabs class="md-accent no-radius" md-dynamic-height>
+          <md-tab label="Departure - {{userSuggestion.outboundLeg.DepartureDate | date : 'mediumDate'}}">
+
+            <div layout="row" layout-align="start center" layout-wrap>
+
+              <div flex="100" flex-gt-md="50">
+                <div class="h2 m-16 pb-16 border-bottom">Direct flight</div>
+
+                <div class="p-16 pb-32" ng-repeat="data in group.data">
+                  <div class="pb-8" layout="row" layout-align="space-between start">
+                    <span class="h3">{{data.title}}</span>
+                    <span class="h3 secondary-text font-weight-500">{{data.value}}%</span>
+                  </div>
+                  <md-progress-linear class="{{data.progressColor}}" md-mode="determinate"
+                                      value="{{data.value}}"></md-progress-linear>
+                </div>
+              </div>
+
+            </div>
+          </md-tab>
+
+          <md-tab label="Return - {{userSuggestion.inboundLeg.DepartureDate | date : 'mediumDate'}}">
+
+            <div layout="row" layout-align="start center" layout-wrap>
+
+              <div flex="100" flex-gt-md="50">
+                <div class="h2 m-16 pb-16 border-bottom">{{group.title}}</div>
+
+                <div class="p-16 pb-32" ng-repeat="data in group.data">
+                  <div class="pb-8" layout="row" layout-align="space-between start">
+                    <span class="h3">{{data.title}}</span>
+                    <span class="h3 secondary-text font-weight-500">{{data.value}}%</span>
+                  </div>
+                  <md-progress-linear class="{{data.progressColor}}" md-mode="determinate"
+                                      value="{{data.value}}"></md-progress-linear>
+                </div>
+              </div>
+
+            </div>
+          </md-tab>
+        </md-tabs>
+      </ms-widget-front>
+    </ms-widget> -->
+
     </div>
+    <!-- / WIDGET GROUP -->
     <!-- / CONTENT -->
   </div>
 </div>
