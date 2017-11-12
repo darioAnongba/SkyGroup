@@ -64,17 +64,18 @@ server.route({
 			payload: {
 				users: Joi.array().items(userSchema).required(),
 				destination: Joi.string().required(),
-				departureDate: Joi.string().required(),
-				returnDate: Joi.string().required()
+				departureDate: Joi.date().timestamp('javascript').required(),
+				returnDate: Joi.date().timestamp('javascript').required()
 			}
 		},
 		handler: function(request: any, reply: any) {
 			let users: Array<UserFromRequest> = request.payload.users;
 			let destination: string = request.payload.destination;
+			let departureDate: Date = new Date(request.payload.departureDate);
+			let returnDate: Date = new Date(request.payload.returnDate);
 			
 			// Getting suggestions from Skyscanner
-			let suggPromise: Promise.Promise<Array<Suggestion>> = Skyscanner.getSuggestions(users, destination);
-			suggPromise.then((suggestions: Array<Suggestion>) => {
+			Skyscanner.getSuggestions(users, destination, departureDate, returnDate).then((suggestions: Array<Suggestion>) => {
 				reply(JSON.stringify(suggestions)).header('Access-Control-Allow-Origin', '*').code(200);
 			});
 		}
