@@ -14,7 +14,7 @@
     // Constants
     var defaultUser = function () {
       return {
-        name: 'dario',
+        name: '',
         departure: ''
       }
     };
@@ -53,6 +53,7 @@
     vm.removeTraveler = removeTraveler;
     vm.querySearchCountries = querySearchCountries;
     vm.querySearchAirports = querySearchAirports;
+    vm.sendConcrete = sendConcrete;
 
     //////////
 
@@ -62,115 +63,40 @@
     function sendForm()
     {
 
-      vm.searchForm.users.forEach(function (part, index, arr) {
-        console.log(arr[index].departure);
+      var dataR = JSON.parse(JSON.stringify(vm.searchForm));
+
+      dataR.users.forEach(function (part, index, arr) {
         arr[index].departure = arr[index].departure.airportId;
       });
 
-      vm.searchForm.destination = vm.searchForm.destination.countryId;
+      dataR.destination = dataR.destination.countryId;
 
       // You can do an API call here to send the form to your server
-      $http.post('http://localhost:8080/suggestion', vm.searchForm, config)
+      $http.post('http://localhost:8080/suggestion', dataR, config)
         .then(function(data, status, headers, config) {
+          console.log(data.data);
+          vm.suggestions = data.data;
+        });
+    }
 
-          vm.suggestions = [
-            {
-              destination: 'London',
-              currency: 'CHF',
-              departureDate: new Date(),
-              returnDate: new Date(),
-              itineraries: [
-                {
-                  user: 'Dario',
-                  outgoingLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'HTW',
-                    price: 100
-                  },
-                  inLeg: {
-                    departureAirport: 'GTW',
-                    destinationAirport: 'ZRH',
-                    price: 40
-                  }
-                },
-                {
-                  user: 'Christophe',
-                  outgoingLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'GTW',
-                    price: 20
-                  },
-                  inLeg: {
-                    departureAirport: 'HTW',
-                    destinationAirport: 'GVA',
-                    price: 50
-                  }
-                },
-                {
-                  user: 'Valentin',
-                  outgoingLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'HTW',
-                    price: 120
-                  },
-                  inLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'HTW',
-                    price: 70
-                  }
-                }
-              ]
-            },
-            {
-              destination: 'Liverpool',
-              currency: 'CHF',
-              departureDate: new Date(),
-              returnDate: new Date(),
-              itineraries: [
-                {
-                  user: 'Dario',
-                  outgoingLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'HTW',
-                    price: 100
-                  },
-                  inLeg: {
-                    departureAirport: 'GTW',
-                    destinationAirport: 'ZRH',
-                    price: 40
-                  }
-                },
-                {
-                  user: 'Christophe',
-                  outgoingLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'HTW',
-                    price: 20
-                  },
-                  inLeg: {
-                    departureAirport: 'HTW',
-                    destinationAirport: 'GVA',
-                    price: 50
-                  }
-                },
-                {
-                  user: 'Valentin',
-                  outgoingLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'HTW',
-                    price: 120
-                  },
-                  inLeg: {
-                    departureAirport: 'GVA',
-                    destinationAirport: 'HTW',
-                    price: 70
-                  }
-                }
-              ]
-            }
-          ]
-        }, function (data, status, header, config) {
-          console.log(header);
+    /**
+     * Send concrete request
+     */
+    function sendConcrete(suggestion)
+    {
+      var dataR = JSON.parse(JSON.stringify(vm.searchForm));
+
+      dataR.users.forEach(function (part, index, arr) {
+        arr[index].departure = arr[index].departure.airportId;
+      });
+
+      dataR.destination = dataR.destination.countryId;
+
+      // You can do an API call here to send the form to your server
+      $http.post('http://localhost:8080/flight', dataR, config)
+        .then(function(data, status, headers, config) {
+          console.log(data.data);
+          vm.suggestions = data.data;
         });
     }
 
