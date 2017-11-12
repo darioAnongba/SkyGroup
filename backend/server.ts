@@ -54,6 +54,16 @@ server.route({
 });
 
 server.route({
+	method: 'GET',
+	path: '/countries',
+	config: {
+		handler: function(request: any, reply: any) {
+			reply(Skyscanner.getCountries()).header('Access-Control-Allow-Origin', '*').code(200);
+		}
+	}
+});
+
+server.route({
 	method: 'POST',
 	path: '/suggestion',
 	config: {
