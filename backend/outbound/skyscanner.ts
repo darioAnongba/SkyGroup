@@ -73,6 +73,7 @@ export class Skyscanner {
             let res = []
             for(let key in s) {
                 let uniqUsers: any = [];
+                let totalPrice:number = 0;
                 for(let i = 0; i < places.length; i ++) {
                     if (key == places[i][0]) {
                         let filteredArray: Array<[string, Quote]> = [];
@@ -82,10 +83,11 @@ export class Skyscanner {
                             if (uniqUsers.indexOf(user) < 0) {
                                 filteredArray.push(elem);
                                 uniqUsers.push(user);
+                                totalPrice += elem[1].MinPrice;
                             }
                         }
 
-                        res.push([places[i][1], filteredArray])
+                        res.push([places[i][1], filteredArray, totalPrice]);
                         break;
                     }
                 }
@@ -95,16 +97,16 @@ export class Skyscanner {
             let rr: Array<Suggestion> = _.map(res, (r) =>{  return new Suggestion(r[0], _.map(r[1], (uq)=> {
                 let l1 = uq[1].InboundLeg;
                 let l2 = uq[1].OutboundLeg;
-                console.log(l2);
+                // console.log(l2);
                 let tmp1 = Skyscanner.transsform(Skyscanner.numtoNam(l1.OriginId, places),Skyscanner.numtoNam(l1.DestinationId, places), l1);
                 let tmp2 = Skyscanner.transsform(Skyscanner.numtoNam(l2.OriginId, places),Skyscanner.numtoNam(l2.DestinationId, places), l2);
-                console.log(tmp2);
-                return new UserWithSuggestion(uq[0],uq[1].MinPrice,uq[1].Direct, tmp2, tmp1)}))});
+                // console.log(tmp2);
+                return new UserWithSuggestion(uq[0],uq[1].MinPrice,uq[1].Direct, tmp2, tmp1)}), r[2])});
+            // console.log("foobar");
+            let sorted = Skyscanner.sortByKey(rr, 'fullPrice')
             //console.log(util.inspect(res, false, null));
-            //console.log(util.inspect(rr, false, null));
-            console.log("foobar");
-
-            return rr;
+            // console.log(util.inspect(sorted, false, null));
+            return sorted;
 
         });
 
@@ -125,6 +127,13 @@ export class Skyscanner {
                 if (error) { return reject(error);}
                 return resolve([user, body]);
             });
+        });
+    }
+
+    static sortByKey(array, key) {
+        return array.sort(function(a, b) {
+            var x = a[key]; var y = b[key];
+            return ((x < y) ? -1 : ((x > y) ? 1 : 0));
         });
     }
 }
