@@ -51,7 +51,7 @@ export class Skyscanner {
         for (let i = 0; i < users.length; i++) {
             cities[i] = users[i].departure;
             let query: string = url + '/browsequotes/v1.0/ch/chf/en-US/'+ cities[i] + '/'
-                + destCountry + '/' + departureDate + '/' + returnDate + '?apikey=' + apikey;
+                + destCountry + '/' + dayDeparture + '/' + dayReturn + '?apikey=' + apikey;
             console.log(query);
             promises.push(Skyscanner.requestSuggestionAsync(query, users[i].name));
         }
@@ -96,7 +96,7 @@ export class Skyscanner {
 
         });
 
-        return Promise.Promise.resolve([]);
+        return suggPromise;
     }
 
     static getAirports(): any {
