@@ -64,8 +64,8 @@ server.route({
 			payload: {
 				users: Joi.array().items(userSchema).required(),
 				destination: Joi.string().required(),
-				departureDate: Joi.date().timestamp('javascript').required(),
-				returnDate: Joi.date().timestamp('javascript').required()
+				departureDate: Joi.date().required(),
+				returnDate: Joi.date().required()
 			}
 		},
 		handler: function(request: any, reply: any) {
